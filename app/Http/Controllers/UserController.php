@@ -25,7 +25,7 @@ class UserController extends Controller
     public function login(LoginRequest $request)
     {
         $data = $request->validate($request->rules());
-         $user = User::where('email','=', $data['email'],false)->first();
+        $user = User::where('email','=', $data['email'],false)->first();
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return response([
@@ -42,7 +42,7 @@ class UserController extends Controller
             'code' => 200,
             'token' => $token,
             'data' => [
-                'username' => $user->username,
+                'username' => $user->name,
                 'email' => $user->email,
             ]
         ], 200);
@@ -50,7 +50,6 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        // $request->user()->currentAccessToken()->delete();
         $request->user()->tokens()->delete();
         return response()->json(
             [
