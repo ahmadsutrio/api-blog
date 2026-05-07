@@ -25,7 +25,7 @@ class UserController extends Controller
     public function login(LoginRequest $request)
     {
         $data = $request->validate($request->rules());
-        $user = User::where('email','=', $data['email'],false)->first();
+        $user = User::where('email', '=', $data['email'], false)->first();
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return response([
@@ -41,6 +41,7 @@ class UserController extends Controller
             'status' => true,
             'code' => 200,
             'token' => $token,
+            'message' => 'berhasil login',
             'data' => [
                 'username' => $user->name,
                 'email' => $user->email,

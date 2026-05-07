@@ -16,8 +16,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $dataPosts = Posts::with('user')->paginate(5);
-
+        $userId = Auth::user()->id;
+        $dataPosts = Posts::with('user')
+            ->where('user_id', $userId)
+            ->paginate(5);
         return PostResource::collection($dataPosts)
             ->additional([
                 'status' => true,
